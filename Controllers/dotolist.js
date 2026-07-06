@@ -140,11 +140,33 @@ const fetchlist = async (req, res) => {
         console.log("Error in fetch candicate ")
 
     }
+};
+
+const fetchlistID = async (req, res) => {
+    try {
+        const userId = req.params
+
+        const Todolist = await dotolist.findOne(userId)
+        if (!Todolist) {
+            return res.json({ success: "false", message: "userID not found" })
+        }
+        return res.json({ success: true, message: "userID fetch successfully", data: Todolist })
+
+    } catch (err) {
+        console.log("Error in fetch userID")
+        return res.json({ success: false, message: "Error in fetch userID" })
+    }
 }
+
+    
+
+
+
 
 
 module.exports =
 {
     createlist,
-    fetchlist
+    fetchlist,
+    fetchlistID
 }
