@@ -119,10 +119,13 @@ const createlist = async (req, res) => {
         if(!save){
             return res.json ({success : false, message :" failed to create list please try again later" })
         }
-        return res.json ({success : true, message: "doto list create successfully"})
+        return res.json ({success : true, message: "doto list create successfully",save})
     } catch (err) {
         console.log(err)
         console.log("Error in create list")
     }
 };
+
+
+
 module.exports = createlist

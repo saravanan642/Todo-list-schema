@@ -4,9 +4,11 @@ const express = require("express");
 const port = require("./config/listen")
 const moongoose = require("mongoose")
 const Database =require("./config/db")
+const IndexRouter = require("./Routes/index")
 
 const app = express();
 app.use(express.json());
 port(app);
 Database(moongoose);
 
+app.use(IndexRouter);
