@@ -1,4 +1,5 @@
-const dotolist = require("../Models/dotolist")
+const dotolist = require("../Models/dotolist");
+
 
 const createlist = async (req, res) => {
     try {
@@ -116,16 +117,34 @@ const createlist = async (req, res) => {
 
         const save = await newlist.save()
 
-        if(!save){
-            return res.json ({success : false, message :" failed to create list please try again later" })
+        if (!save) {
+            return res.json({ success: false, message: " failed to create list please try again later" })
         }
-        return res.json ({success : true, message: "doto list create successfully",save})
+        return res.json({ success: true, message: "doto list create successfully", save })
     } catch (err) {
         console.log(err)
         console.log("Error in create list")
     }
 };
 
+const fetchlist = async (req, res) => {
+    try {
+        const Totolist = await dotolist.find({})
+        if (!Totolist) {
+            return res.json({ succes: false, message: "candiate not found in the doto ist" })
+        }
+        return res.json({ succes: true, message: "candicate fetch successfully ", data: Totolist })
+
+    } catch (err) {
+        console.log(err.message)
+        console.log("Error in fetch candicate ")
+
+    }
+}
 
 
-module.exports = createlist
+module.exports =
+{
+    createlist,
+    fetchlist
+}
