@@ -144,19 +144,34 @@ const fetchlist = async (req, res) => {
 
 const fetchlistID = async (req, res) => {
     try {
-        const userId = req.params
 
-        const Todolist = await dotolist.findOne(userId)
+        const { userID } = req.params;
+
+        const Todolist = await dotolist.findOne({userId: userID});
+
         if (!Todolist) {
-            return res.json({ success: "false", message: "userID not found" })
+            return res.json({
+                success: false,
+                message: "userID not found"
+            });
         }
-        return res.json({ success: true, message: "userID fetch successfully", data: Todolist })
+
+        return res.json({
+            success: true,
+            message: "userID fetched successfully",
+            data: Todolist
+        });
 
     } catch (err) {
-        console.log("Error in fetch userID")
-        return res.json({ success: false, message: "Error in fetch userID" })
+        console.log(err);
+        return res.json({
+            success: false,
+            message: "Error in fetch userID"
+        });
     }
 }
+
+
 
     
 
