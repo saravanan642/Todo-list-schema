@@ -163,7 +163,7 @@ const updatelist = async (req, res) => {
     try {
         const { userID } = req.params;
 
-        const Todolist = await dotolist.findOneAndUpdate({ userId: userID }, req.body,{ new: true });
+        const Todolist = await dotolist.findOneAndUpdate({ userId: userID }, req.body, { new: true });
 
         if (!Todolist) { return res.json({ success: false, message: "Todo list update not successfully" }); }
 
@@ -174,9 +174,26 @@ const updatelist = async (req, res) => {
     }
 };
 
+const Deletelist = async (req, res) => {
+    try {
+        const{userID}= req.params
+        const Todolist = await dotolist.findOneAndDelete({ userId: userID });
+        if(!Todolist){
+            return res.json({success: "false", message : "userid not found"})
+        }
+       return res.json({ success: true, message: "userID delete successfully" });
+
+    } catch (err) {
+        console.log(err);
+        return res.json({ success: false, message: err.message });
+    }
+}
+
+
 module.exports = {
     createlist,
     fetchlist,
     fetchlistID,
-    updatelist
+    updatelist,
+    Deletelist
 }
