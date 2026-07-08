@@ -147,41 +147,37 @@ const fetchlistID = async (req, res) => {
 
         const { userID } = req.params;
 
-        const Todolist = await dotolist.findOne({userId: userID});
+        const Todolist = await dotolist.findOne({ userId: userID });
 
-        if (!Todolist) {
-            return res.json({
-                success: false,
-                message: "userID not found"
-            });
-        }
+        if (!Todolist) { return res.json({ success: false, message: "userID not found" }); }
 
-        return res.json({
-            success: true,
-            message: "userID fetched successfully",
-            data: Todolist
-        });
+        return res.json({ success: true, message: "userID fetched successfully", data: Todolist });
 
     } catch (err) {
         console.log(err);
-        return res.json({
-            success: false,
-            message: "Error in fetch userID"
-        });
+        return res.json({ success: false, message: "Error in fetch userID" });
     }
 }
 
+const updatelist = async (req, res) => {
+    try {
+        const { userID } = req.params;
 
+        const Todolist = await TodolistModel.findByIdAndUpdate(userID, req.body, { new: true });
 
-    
+        if (!Todolist) { return res.json({ success: false, message: "Todo list update not successfully" }); }
 
+        return res.json({ success: true, message: "Todo list updated successfully", Todolist });
 
+    } catch (err) {
+        console.log(err);
+      return res.json({success: false, message: err.message});
+    }
+};
 
-
-
-module.exports =
-{
+module.exports = {
     createlist,
     fetchlist,
-    fetchlistID
+    fetchlistID,
+    updatelist
 }
