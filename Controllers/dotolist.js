@@ -163,15 +163,14 @@ const updatelist = async (req, res) => {
     try {
         const { userID } = req.params;
 
-        const Todolist = await TodolistModel.findByIdAndUpdate(userID, req.body, { new: true });
+        const Todolist = await dotolist.findOneAndUpdate({ userId: userID }, req.body,{ new: true });
 
         if (!Todolist) { return res.json({ success: false, message: "Todo list update not successfully" }); }
 
         return res.json({ success: true, message: "Todo list updated successfully", Todolist });
 
     } catch (err) {
-        console.log(err);
-      return res.json({success: false, message: err.message});
+        console.log(err); return res.json({ success: false, message: err.message });
     }
 };
 
