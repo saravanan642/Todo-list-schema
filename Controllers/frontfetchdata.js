@@ -1,21 +1,31 @@
+const fetchdata = require("../Models/fetchdata");
+
 const createfetchdata = async (req, res) => {
   try {
-    const {firstName, lastName,email, phone, gender, password,} = req.body;
+    const {firstName,lastName, email, phone, gender,password, } = req.body;
 
-    console.log("My Data:", { firstName, lastName, email, phone, gender, password, });
+    if (!firstName || !lastName || !email || !phone || !gender || !password) {
+      return res.json({  success: false,  message: "All fields are required",});
+    }
 
-    return res.json({
-      success: true,
-      message: "Data Created Successfully",
-    });
-  } catch (err) {
-    console.log(err.message);
+    const Existing = await fetchdata.findOne({ email });
 
-    return res.json({
-      success: false,
-      message: "Error in create form",
-    });
-  }
+    if (Existing) {return res.json({ success: false, message: "Email already exists",  });}
+
+    
+    const newData = new fetchdata({firstName, lastName, email, phone, gender, password,});
+
+    
+    const save = await newData.save();
+
+    if (!save) {
+      return res.json({success: false, message: "Failed to create data", });}
+
+    return res.json({ success: true, message: "Data Created Successfully", data: save,});
+
+  } catch (err) { console.log(err);
+
+    return res.json({ success: false, message: "Error in create form",}); }
 };
 
 module.exports = {
