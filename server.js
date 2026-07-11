@@ -5,8 +5,9 @@ const port = require("./config/listen")
 const moongoose = require("mongoose")
 const Database =require("./config/db")
 const IndexRouter = require("./Routes/index")
-
+const cors = require("cors");
 const app = express();
+app.use(cors());
 app.use(express.json());
 port(app);
 Database(moongoose);
