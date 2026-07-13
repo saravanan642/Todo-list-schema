@@ -28,6 +28,22 @@ const createfetchdata = async (req, res) => {
     return res.json({ success: false, message: "Error in create form",}); }
 };
 
+
+const fetchformdata = async (req,res)=>{
+  try{
+    const formdata = await fetchdata.find({})
+    if(!formdata){
+      return res.json({ succes: false, message: "candiate not found in the doto ist" })
+    }
+    return res.json({ succes: true, message: "candicate fetch successfully ", data: fetchdata })
+
+  }catch(err){
+    console.log(err.message)
+    console.log("Error in the fetch candicate")
+  }
+}
 module.exports = {
   createfetchdata,
+  fetchformdata
+  
 };
