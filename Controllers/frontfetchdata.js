@@ -2,48 +2,64 @@ const fetchdata = require("../Models/fetchdata");
 
 const createfetchdata = async (req, res) => {
   try {
-    const {firstName,lastName, email, phone, gender,password, } = req.body;
+    const { firstName, lastName, email, phone, gender, password, } = req.body;
 
     if (!firstName || !lastName || !email || !phone || !gender || !password) {
-      return res.json({  success: false,  message: "All fields are required",});
+      return res.json({ success: false, message: "All fields are required", });
     }
 
     const Existing = await fetchdata.findOne({ email });
 
-    if (Existing) {return res.json({ success: false, message: "Email already exists",  });}
+    if (Existing) { return res.json({ success: false, message: "Email already exists", }); }
 
-    
-    const newData = new fetchdata({firstName, lastName, email, phone, gender, password,});
 
-    
+    const newData = new fetchdata({ firstName, lastName, email, phone, gender, password, });
+
+
     const save = await newData.save();
 
     if (!save) {
-      return res.json({success: false, message: "Failed to create data", });}
+      return res.json({ success: false, message: "Failed to create data", });
+    }
 
-    return res.json({ success: true, message: "Data Created Successfully", data: save,});
+    return res.json({ success: true, message: "Data Created Successfully", form: save, });
 
-  } catch (err) { console.log(err);
+  } catch (err) {
+    console.log(err);
 
-    return res.json({ success: false, message: "Error in create form",}); }
+    return res.json({ success: false, message: "Error in create form", });
+  }
 };
 
+const fetchformdata = async (req, res) => {
+  try {
+    const formdata = await fetchdata.find({});
+    console.log(formdata);
 
-const fetchformdata = async (req,res)=>{
-  try{
-    const formdata = await fetchdata.find({})
-    if(!formdata){
-      return res.json({ succes: false, message: "candiate not found in the doto ist" })
+    if (formdata.length === 0) {
+      return res.json({
+        success: false,
+        message: "Candidate not found in the database",
+      });
     }
-    return res.json({ succes: true, message: "candicate fetch successfully ", data: fetchdata })
 
-  }catch(err){
-    console.log(err.message)
-    console.log("Error in the fetch candicate")
+    return res.json({
+      success: true,
+      message: "Candidate fetch successfully",
+      form: formdata,
+    });
+
+  } catch (err) {
+    console.log(err.message);
+
+    return res.json({
+      success: false,
+      message: "Error in fetch candidate",
+    });
   }
-}
+};
+
 module.exports = {
   createfetchdata,
-  fetchformdata
-  
+  fetchformdata,
 };

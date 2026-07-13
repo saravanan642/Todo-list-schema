@@ -1,5 +1,5 @@
 const express = require('express')
-const {createlist, fetchlist,fetchlistID, updatelist, Deletelist} = require("../Controllers/dotolist")
+const {createlist, fetchlist,fetchlistID, updatelist, Deletelist, } = require("../Controllers/dotolist")
 
 const router = express.Router()
 
