@@ -39,13 +39,13 @@ const fetchformdata = async (req, res) => {
     if (formdata.length === 0) {
       return res.json({
         success: false,
-        message: "Candidate not found in the database",
+        message: "data  not found in the database",
       });
     }
 
     return res.json({
       success: true,
-      message: "Candidate fetch successfully",
+      message: "data fetch successfully",
       form: formdata,
     });
 
@@ -54,12 +54,29 @@ const fetchformdata = async (req, res) => {
 
     return res.json({
       success: false,
-      message: "Error in fetch candidate",
+      message: "Error in fetch form data",
     });
   }
 };
 
+
+const deleteform = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const form = await fetchdata.findByIdAndDelete(id);
+
+    if (!form) { return res.json({success: false, message: "Form not found"});
+    }
+
+    return res.json({ success: true, message: "Form deleted successfully"});
+
+  } catch (err) {
+    console.log(err.message);
+    return res.json({  success: false, message: "Error deleting form data" });}
+};
 module.exports = {
   createfetchdata,
   fetchformdata,
+  deleteform
 };
